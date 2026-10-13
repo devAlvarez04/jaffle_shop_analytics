@@ -1,0 +1,15 @@
+# dbt artifacts
+target/
+dbt_packages/
+logs/
+
+# DuckDB database files (rebuilt from code, never versioned)
+*.duckdb
+*.duckdb.wal
+
+# Python
+.venv/
+__pycache__/
+
+# Personal sandbox
+scratch/
