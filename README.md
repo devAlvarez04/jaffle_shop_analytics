@@ -11,5 +11,7 @@ Jaffle Shop dataset from dbt Labs.
 ## Getting started (Windows / PowerShell)
 
     . .\setup.ps1
+    python scripts/load_raw.py
     dbt debug
+    dbt source freshness
     dbt build

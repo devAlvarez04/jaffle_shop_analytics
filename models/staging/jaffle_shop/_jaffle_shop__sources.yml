@@ -1,0 +1,33 @@
+version: 2
+
+sources:
+
+  - name: jaffle_shop
+    description: >
+      Raw data from the Jaffle Shop point-of-sale application,
+      loaded as text by scripts/load_raw.py.
+    schema: raw
+    loader: scripts/load_raw.py
+    config:
+      loaded_at_field: _loaded_at
+      freshness:
+        warn_after: {count: 12, period: hour}
+        error_after: {count: 24, period: hour}
+      meta:
+        owner: data-ingestion-team
+
+    tables:
+      - name: customers
+        description: One row per customer.
+        config:
+          freshness: null
+          meta: 
+            contains_pii: true
+      - name: orders
+        description: One row per order, with its current status.
+      - name: payments
+        description: One row per payment. An order can have several payments.
+        config:
+          freshness:
+            warn_after: {count: 6, period: hour}
+            error_after: {count: 12, period: hour}
