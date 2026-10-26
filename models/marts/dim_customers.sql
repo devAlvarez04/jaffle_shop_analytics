@@ -12,19 +12,9 @@ orders as (
 
 ),
 
-payments as (
-
-    select * from {{ ref('stg_jaffle_shop__payments') }}
-
-),
-
 order_payments as (
 
-    select
-        order_id,
-        sum(amount) as order_amount
-    from payments
-    group by order_id
+    select * from {{ ref('int_order_payments') }}
 
 ),
 
@@ -40,14 +30,14 @@ customer_orders as (
                 when orders.status in ('returned','return_pending')then orders.order_id
             end 
             ) 
-            as number_of_returned_orders,
+                                            as number_of_returned_orders,
         sum(order_payments.order_amount)    as lifetime_value,
         sum(
             case 
                 when orders.status not in ('returned','return_pending') then order_payments.order_amount 
                 else 0 
             end) 
-            as lifetime_net_value
+                                            as lifetime_net_value
 
     from orders
     left join order_payments
